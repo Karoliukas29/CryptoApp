@@ -1,9 +1,9 @@
 package com.karolisstuff.cryptoapp.presentation.coin_detail
 
-import com.karolisstuff.cryptoapp.domain.model.CoinDetail
+import com.karolisstuff.cryptoapp.domain.model.Tweet
 
-data class CoinDetailState(
+data class CoinTweetState(
     val isLoading: Boolean = false,
-    val coin: CoinDetail? = null ,
+    val tweets: List<Tweet> = emptyList(),
     val error: String = ""
 )
