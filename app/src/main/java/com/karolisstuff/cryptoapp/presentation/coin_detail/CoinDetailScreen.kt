@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,13 +26,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.flowlayout.FlowRow
 import com.karolisstuff.cryptoapp.presentation.coin_detail.components.CoinTag
 import com.karolisstuff.cryptoapp.presentation.coin_detail.components.TeamListItem
+import com.karolisstuff.cryptoapp.presentation.coin_detail.components.TweetItem
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CoinDetailScreen(
-    viewModel: CoinDetailViewModel = hiltViewModel()
+    coinId: String,
+    viewModel: CoinDetailViewModel = hiltViewModel(),
+    tweetViewModel: CoinTweetViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
+    val tweetState = tweetViewModel.state.value // Getting the state from the tweet view model
+
     Box(modifier = Modifier.fillMaxSize()) {
         state.coin?.let { coin ->
             LazyColumn(
@@ -44,7 +47,6 @@ fun CoinDetailScreen(
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
-
                     ) {
                         Text(
                             text = "${coin.rank}. ${coin.name} (${coin.symbol})",
@@ -89,6 +91,32 @@ fun CoinDetailScreen(
                     )
                     Spacer(modifier = Modifier.height(15.dp))
                 }
+
+                item {
+                    Text(
+                        text = "Tweets",
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    if (tweetState.isLoading) {
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    } else if (tweetState.error.isNotBlank()) {
+                        Text(
+                            text = tweetState.error,
+                            color = MaterialTheme.colorScheme.error,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        )
+                    } else {
+                        tweetState.tweets.forEach { tweet ->
+                            TweetItem(tweet = tweet)
+                        }
+                    }
+                }
+
                 items(coin.team) { teamMember ->
                     TeamListItem(
                         teamMember = teamMember, modifier = Modifier
@@ -98,7 +126,6 @@ fun CoinDetailScreen(
                     HorizontalDivider()
                 }
             }
-
         }
 
         if (state.error.isNotBlank()) {
@@ -115,6 +142,5 @@ fun CoinDetailScreen(
         if (state.isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
-
     }
 }
