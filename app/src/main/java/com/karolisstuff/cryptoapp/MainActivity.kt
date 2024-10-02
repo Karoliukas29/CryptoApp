@@ -25,19 +25,19 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         navController = navController,
                         startDestination = Screen.CoinListScreen.route
-                    ) {
+                    ){
                         composable(
                             route = Screen.CoinListScreen.route
-                        ) {
+                        ){
                             CoinListScreen(navController)
                         }
                         composable(
                             route = Screen.CoinDetailScreen.route + "/{coinId}"
-                        ) { backStackEntry ->
-                            val coinId = backStackEntry.arguments?.getString("coinId") ?: ""
-                            CoinDetailScreen(coinId = coinId)
+                        ) {
+                            CoinDetailScreen()
                         }
                     }
+
                 }
             }
         }

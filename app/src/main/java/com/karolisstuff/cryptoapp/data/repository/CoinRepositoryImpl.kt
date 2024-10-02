@@ -1,5 +1,6 @@
 package com.karolisstuff.cryptoapp.data.repository
 
+import android.util.Log
 import com.karolisstuff.cryptoapp.data.remote.CoinPaprikaApi
 import com.karolisstuff.cryptoapp.data.remote.dto.CoinDetailDto
 import com.karolisstuff.cryptoapp.data.remote.dto.CoinDto
@@ -21,6 +22,7 @@ class CoinRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTweetsById(coinId: String): List<CoinTweetDto> {
+        Log.d("CoinRepository", "-------------------------Fetching tweets for coinId: $coinId from API")
         return api.getTweetsById(coinId)
     }
 

@@ -34,7 +34,7 @@ fun CoinTweetDto.toTweet(): Tweet {
         date = date,
         isRetweet = isRetweet,
         likeCount = likeCount,
-        mediaLink = mediaLink,
+        mediaLink = mediaLink ?: "",
         retweetCount = retweetCount,
         status = status,
         userName = userName
