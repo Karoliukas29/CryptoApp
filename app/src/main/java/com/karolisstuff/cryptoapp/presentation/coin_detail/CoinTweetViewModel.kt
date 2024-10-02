@@ -1,5 +1,6 @@
 package com.karolisstuff.cryptoapp.presentation.coin_detail
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -23,6 +24,8 @@ class CoinTweetViewModel @Inject constructor(
 
     init {
         savedStateHandle.get<String>(Constants.PARAM_COIN_ID)?.let { coinId ->
+            Log.d("CoinTweetViewModel", "-------------------Fetching tweets for coinId: $coinId")
+
             getTweets(coinId)
         }
     }
@@ -31,16 +34,19 @@ class CoinTweetViewModel @Inject constructor(
         getTweetsUseCase(coinId).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = CoinTweetState(tweets = result.data ?: emptyList())  // Assign the list of tweets
+                    Log.d("CoinTweetViewModel", "-----------------------Successfully fetched tweets for coinId: $coinId")
+                    _state.value = CoinTweetState(tweets = result.data ?: emptyList())
                 }
 
                 is Resource.Error -> {
+                    Log.e("CoinTweetViewModel", "---------------------------Error fetching tweets for coinId: $coinId, Error: ${result.message}")
                     _state.value = CoinTweetState(
                         error = result.message ?: "An unexpected error occurred"
                     )
                 }
 
                 is Resource.Loading -> {
+                    Log.d("CoinTweetViewModel", "-------------------------Loading tweets for coinId: $coinId")
                     _state.value = CoinTweetState(isLoading = true)
                 }
             }

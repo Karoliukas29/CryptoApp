@@ -46,7 +46,7 @@ fun TweetItem(tweet: Tweet) {
             )
         }
         Spacer(modifier = Modifier.height(5.dp))
-        if (tweet.mediaLink.isNotBlank()) {
+        if (!tweet.mediaLink.isNullOrEmpty()) {
             Text(
                 text = "Media: ${tweet.mediaLink}",
                 style = MaterialTheme.typography.bodySmall,

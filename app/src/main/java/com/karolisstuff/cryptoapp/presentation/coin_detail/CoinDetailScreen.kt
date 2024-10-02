@@ -2,8 +2,7 @@ package com.karolisstuff.cryptoapp.presentation.coin_detail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.PaddingValues
+-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,7 +29,6 @@ import com.karolisstuff.cryptoapp.presentation.coin_detail.components.TweetItem
 
 @Composable
 fun CoinDetailScreen(
-    coinId: String,
     viewModel: CoinDetailViewModel = hiltViewModel(),
     tweetViewModel: CoinTweetViewModel = hiltViewModel()
 ) {
@@ -92,6 +90,19 @@ fun CoinDetailScreen(
                     Spacer(modifier = Modifier.height(15.dp))
                 }
 
+                items(coin.team) { teamMember ->
+                    TeamListItem(
+                        teamMember = teamMember, modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(10.dp)
+                    )
+                    HorizontalDivider()
+                    Spacer(modifier = Modifier.height(15.dp))
+                }
+
+
+
+
                 item {
                     Text(
                         text = "Tweets",
@@ -117,14 +128,6 @@ fun CoinDetailScreen(
                     }
                 }
 
-                items(coin.team) { teamMember ->
-                    TeamListItem(
-                        teamMember = teamMember, modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(10.dp)
-                    )
-                    HorizontalDivider()
-                }
             }
         }
 

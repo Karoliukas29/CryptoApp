@@ -14,6 +14,6 @@ interface CoinPaprikaApi {
     @GET("/v1/coins/{coinId}")
     suspend fun getCoinById(@Path("coinId") coinId: String): CoinDetailDto
 
-    @GET("/v1/coins/{coinId}/tweets")
+    @GET("/v1/coins/{coinId}/twitter")
     suspend fun getTweetsById(@Path("coinId") coinId: String): List<CoinTweetDto>
 }
